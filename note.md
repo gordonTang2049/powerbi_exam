@@ -1,5 +1,7 @@
-###### DirectQuery vs m Code vs Power Query vs Dax vs advance query
+###### DirectQuery vs m Code vs Power Query vs Dax vs Advance Editor
     
+DirectQuery
+------------------------------------------------------------------------------------
     -Import Data -> cache Data -> fast & less space use
     -DirectQuery -> Pull Schema not data itself
     
@@ -22,6 +24,93 @@
               In multi-dimensional sources such as SAP Business Warehouse, 
               the dimensions and measures for the chosen cube appear in the Fields list. 
               As you interact with the visualization, Power BI queries the underlying data source and you always view the current data.
+
+Advance Editor -> see Detail of M code
+-----------------------------------------------------------------------------------------
+1. let : the definition of all Variable
+2. in : the output of your query
+3. #Variable Name -> This is steps
+
+let 
+    Source = Csv.Document(File.Contents("./Path.csv").[Delimiter=",", Columns=10, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+// Function param1 -> Step from  "Source" Variable
+    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+    #"Change Type" = Table.TransformColumnTypes(#"Promoted Headers", {{"Transaction", type data}, {"Stock_ Date", type date},
+    {"Invoice_ID", type text} }
+    ),
+    #"Reordered Columns" = Table.ReorderColumns(#"Change Type", {"Transaction_Date", "Product Key", "Stock_ Date"}),
+    #"Sorted Rows" = Table.Sort(#"Reordered Columns", {{"Product Key", Order.Ascending}})
+in 
+// Final Output
+    #"Sorted Rows"
+
+(Function Name)                         (Argument - a Filter condition (quantity sold = 2))
+Table.SelectRows(#"Reordered Columns", each([Quantity_Sold]=2))
+                 (Reordered Column Step)
+
+M code Categories
+-----------------------------------------------------------------------------------------
+Table                  |  List          | Text                  | Date |
+
+//Table Construction    
+Table.FromList          List.Select      Text.Length             Date.EndOfMonth
+Table.ToList            List.Contains    Text.From               Date.EndOfQuarter
+Table.isEmpty           List.Unions      Text.Middle             Date.Day
+Table.FindText          List.Median      Text.Contains           Date.StartOfWeek
+Table.RemoveColumns     List.Numbers     Text.Remove             Date.StartOfMonth
+Table.Contains                           Text.BeforeDelimiter
+
+-Table construction     Selection        Information
+-Conversion             Membership       Text.comparisons
+-information            Set operations   Extraction
+-Row operations         Ordering         Membership
+-Column operations      Generators       Modification
+-Membership                              Transformations
+
+
+
+
+
+###### Steps
+
+    Sources -> Dataset -> reports -> dashboard
+
+###### Synonyms (Q&A)
+    
+    define Synonyms (Words) in Q&A  for the data table
+    
+    Insert -> Q & A -> Gear(Setting) -> Field Synonyms -> With the data fields
+
+    Insert -> Q & A -> Gear(Setting) -> teach Q&A
+    
+    I can Synonyms in Data modelling -> click the fields -> Properties -> General -> Synonyms
+
+###### Data Classification Vs. Sensitivity Labels
+Data Classification
+-------------------------------------
+    -Precaution about data
+    -Awareness
+    -Apply to only dashbaord
+
+    The solution needs to minimize the configuration efforts and effect on the dashboard design.
+
+    What data to share to who, data Sensitivity 
+
+    Admin Portal -> Tenant Settings -> dashboard settings -> Data Classification
+
+    -> Go to the dashboard itself -> setting
+
+Sensitivity Labels
+---------------------------------------
+    -Protection of data
+    -Prevent Unauthorized Access Data
+    -Apply to Dashboard, Reports, DataSets & DataFlow 
+
+
+
+###### Display in Published report -> Tab order and Layer Order 
+ logical way. =>    View -> Selection -> Layer or Tab order
+
 
 
 ###### Power Query Editor-> Column quality vs profile vs distribution
@@ -63,6 +152,15 @@
 
 
 ###### decomposition tree & Key influencer
+    understand and explore the potential causes 
+
+    Option -> preview feature -> enable decomposition tree
+
+        -> Visualiation has 3 icons in the bottom
+
+                Select Explained by -> 
+        
+        can rename the attribute names
 
 
 ###### Admin Feature only
@@ -156,6 +254,30 @@ Should Write code
         MonthlyExpense[Year], MonthlyExpense[Month]),
         DimDate[month] = "December"
         )
+-----------------------------------------------------------------------
+Switch
+-----------------------------------------------------------------------
+    Column -> Competitor Price
+
+    if Competitor Price is Zero/Empty  -> Show me Cost Price
+
+
+    Some Product is not sold by Competitors
+    
+    |Name       |Brand |Cost Price |Competitor Price|
+    |Jeans Levis|Levis |650        |0               |
+
+If competitor Price is Larger than 0, use competitor Price otherwise use Cost Price
+
+    New Price = Switch(true(), 
+        Sum('Product Master'[competitor Price]) > 0,
+        Sum('Product Master'[competitor Price]),
+        Sum('Product Master'[Cost Price])
+    )
+
+
+
+
 
 
 
