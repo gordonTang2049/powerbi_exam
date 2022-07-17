@@ -1,5 +1,84 @@
-###### Active vs Inactive relationship
+###### DirectQuery vs m Code vs Power Query vs Dax vs advance query
+    
+    -Import Data -> cache Data -> fast & less space use
+    -DirectQuery -> Pull Schema not data itself
+    
+        DirectQuery limitation
+            from power query and DAX
 
+    -Live Connection
+        Analysis Services -> powerBI -> powerBI Dataset
+            No change with model
+
+    -Composite Model
+        Mix and Match
+
+
+     Azure SQL database -> connect with  -> By setting the data connectivity mode to DirectQuery
+            While connecting to a data source in Power BI Desktop, it is always possible to import a copy of the data in Power BI Desktop.
+             Some data sources have the option of connecting directly to the data source using DirectQuery. 
+             With the DirectQuery option, no data is imported or copied to Power BI Desktop. 
+             For relational sources, the chosen columns and tables appear in the Fields list.
+              In multi-dimensional sources such as SAP Business Warehouse, 
+              the dimensions and measures for the chosen cube appear in the Fields list. 
+              As you interact with the visualization, Power BI queries the underlying data source and you always view the current data.
+
+
+###### Power Query Editor-> Column quality vs profile vs distribution
+
+    -Column Quality
+    -Column distribution
+    -Column profile 
+        are data profiling functionalities under the View tab in Data Preview Section. 
+        These functionalities help in understanding the data anomalies and statistics. 
+        Out of these three functionalities, Column quality is the one that can be used to show the percentages of data that is in error, empty and valid.
+
+    Column profile ->
+        provides a deeper look into the statistics within the column. 
+        This column can be used to provide many different values like the count of rows 
+        but it does not help in identifying the percentage of empty cells in the column.
+
+    Column Quality ->
+        Column quality is the data preview option that is used to show the percentages of data that is in error, empty and valid.        
+
+    Column distribution ->
+        displays the data distribution within the column and the counts of unique and distinct values. It is not the right choice for the target goal.
+
+###### the dataset settings
+    it has user Q&A comment session enable
+
+    no -> Check the cardinality for the columns in the dataset
+
+###### RLS 
+
+    RLS roles that use the DAX functions USERNAME and USERPRINCIPALNAME are examples of dynamic RLS roles
+
+    B. 1-2-3-5-4-6
+    1. Create a report in Microsoft Power BI Desktop that involves import the data, confirm the data model between both tables, and create the report visuals.
+    2. Create RLS roles in Power BI Desktop by using DAX.
+    3. Test the roles in Power BI Desktop.
+    4. Add members to the role in the Power BI service.
+    5. Deploy the report to Microsoft Power BI service.
+    6. Test the roles in the Power BI service.
+
+
+###### decomposition tree & Key influencer
+
+
+###### Admin Feature only
+    Creating a report in another workspace depending upon the dataset of this workspace
+
+
+###### query editor -> where the query at the beignning of importing the ds
+
+    There are steps of queries, if I want to split your query into two parts,
+    I right click "Extract previous"
+
+    resharpe transform and then load data into data model
+
+###### Active vs Inactive relationship and relationship
+
+type of cardinality describes the ideal type of table relationship
 
 
 ###### M code vs Dax Function 
@@ -122,11 +201,6 @@ RELATEDTETABLE
 RELATED 
 
 
-###### query editor -> where the query at the beignning of importing the ds
-
-    There are steps of queries, if I want to split your query into two parts,
-    I right click "Extract previous"
-
 
 
 ###### Look up table & data table
@@ -173,8 +247,22 @@ C. CROSSFILTER -> DAX function that takes the two columns and set the cross filt
     DAX function to modify a single directional relationship to a bi-directional relationship on the fly (within the measure)
 
 
+
+Salary_Cost having Q&A enabled on it.
+ When a user tries to get the count of Employees, 
+ the query gets failed. 
+ On the other hand, when the user asks for the count of workers
+
+C. Editing synonyms from the Power BI Desktop
+
+When you are interested in improving the Q&A experience, it is always a good practice to add synonyms from the Power BI Desktop Model view.
+
 ###### resources
     https://www.whizlabs.com/blog/da-100-exam-questions/
 
     **Scrope**
     https://www.mssqltips.com/sqlservertip/7285/microsoft-exam-pl-300-microsoft-power-bi-data-analyst-prep-guide/
+
+
+
+    
