@@ -1,7 +1,32 @@
+###### Parameter
+    Query Parameter
+
+        Click Edit Query -> Manage parameters / new parameters 
+
+        List of Value -> need to have current value
+        
+    Use Query Parameter in a table -> go to column -> Drop down -> filter -> dropdown (ABC icon) -> select parameter
+
+Only Modified by PowerBi Desktop
+
+    Param only use by Power BI Model Authors, not users
+
+
 ###### DirectQuery vs m Code vs Power Query vs Dax vs Advance Editor
     
 DirectQuery
 ------------------------------------------------------------------------------------
+    The database is updated on a frequent basis.
+     Some data sources have the option of connecting directly to the data source using DirectQuery. 
+     With the DirectQuery option, 
+     no data is imported or copied to Power BI Desktop. For relational sources,
+    the chosen columns and tables appear in the Fields list. 
+    In multi-dimensional sources such as SAP Business Warehouse, 
+    the dimensions and measures for the chosen cube appear in the Fields list. As you interact with the visualization,
+    you always view the current data.
+
+
+
     -Import Data -> cache Data -> fast & less space use
     -DirectQuery -> Pull Schema not data itself
     
@@ -385,6 +410,29 @@ When you are interested in improving the Q&A experience, it is always a good pra
     **Scrope**
     https://www.mssqltips.com/sqlservertip/7285/microsoft-exam-pl-300-microsoft-power-bi-data-analyst-prep-guide/
 
+    **Dataset Settings**
+    Dataset Settings 
+        -> Schedule refresh 
+        -> Data Source credentials
 
 
-    
+    https://www.velosio.com/blog/getting-started-with-scheduled-refresh-in-power-bi/#:~:text=Configuration%20in%20Dataset%20Settings&text=You%20can%20also%20get%20to,to%20configure%20your%20refresh%20plan.
+        Can't check B. Check the cardinality for the columns in the dataset
+
+Able to 
+    A. Modify query editor parameter values
+    C. Mark the dataset as certified or promoted
+    D. Change the credentials used for connecting to the underlying data source
+    E. Define the sensitivity label for the dataset
+
+###### Workspace admin Security
+    only for admin ->  Adding or removing the other users from the workspace    
+
+    Private 
+    Public
+    Organization
+
+###### Performance
+     improve the performance while getting the data in Power BI?
+            Calculation in Powerquery -> C. Performing some calculations in the original data source 
+
