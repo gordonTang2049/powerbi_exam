@@ -11,8 +11,8 @@ Only Modified by PowerBi Desktop
 
     Param only use by Power BI Model Authors, not users
 
-
 ###### DirectQuery vs m Code vs Power Query vs Dax vs Advance Editor
+
     
 DirectQuery
 ------------------------------------------------------------------------------------
@@ -49,6 +49,8 @@ DirectQuery
               In multi-dimensional sources such as SAP Business Warehouse, 
               the dimensions and measures for the chosen cube appear in the Fields list. 
               As you interact with the visualization, Power BI queries the underlying data source and you always view the current data.
+
+
 
 Advance Editor -> see Detail of M code
 -----------------------------------------------------------------------------------------
@@ -92,8 +94,8 @@ Table.Contains                           Text.BeforeDelimiter
 -Column operations      Generators       Modification
 -Membership                              Transformations
 
-
-
+e.g. Filter Customer by 2
+= Table.SelectRows(#'Reordered Columns', each([Quatity_Sold]=2))
 
 
 ###### Steps
@@ -211,6 +213,42 @@ type of cardinality describes the ideal type of table relationship
 
 ##### Dax Function
 
+| MATH & STATS              | LOGICAL           | TEXT            | FILTER              | DATE & TIME           |
+Basic **Aggregation** func    Conditional Ex     text strings       Lookup Func             date & time 
+**iterators** eval row lvl                       controls format    Filtering Func          time intelligenece
+
+-SUM                          -IF                -CONCATENATE       -CALCULATE              -DATEDIFF
+-AVERAGE                      -IFERROR           -FORMAT            -FILTER                 -YEARFRAC
+-MAX/MIN                      -AND               -LEFT/MID/RIGHT    -ALL                    -YEAR/MONTH/DAY
+-COUNT/COUNTA                 -OR                -UPPER/LOWER       -ALLEXCEPT              -HOUR/MINUTE/SECOND
+-COUNTROWS                    -NOT               -PROPER            -RELATED                -TODAY/NOW
+-DISTINCTCOUNT                -SWITCH            -LEN               -RELATEDTABLE           -WEEKDAY/WEEKNUM
+                              -TRUE              -SEARCH/FIND       -DISTINCT
+**ITERATOR**                  -FALSE             -REPLACE           -VALUES                 time intelligence
+-SUMX                                            -REPT              -EARLIER/EARLIEST       -DATESYTD
+-AVERAGEX                                        -SUBSTITUTE        -HASONEVALUE            -DATESQTD
+-MAXX/MINX                                       -TRIM              -HASONEFILTER           -DATESMTD
+-RANKX                                           -UNICHAR           -ISFILTERED             -DATESMDD
+-COUNTX                                                             -USERELATIONSHIP        -DATESINPERIOD
+                                                                    -TOPN
+
+// CALCULATE VS SUMMARIZE
+
+##### RANKX - CALCULATE
+    -----------------------------------------------------------------------
+    
+
+
+
+##### TOPN - CALCULATE
+    -----------------------------------------------------------------------
+
+##### FILTER - SUMMARIZE 
+    -----------------------------------------------------------------------
+
+##### TOPN - SUMMARIZE 
+    -----------------------------------------------------------------------
+
 ###### Corss Filter
     -----------------------------------------------------------------------
         CorssFilter(col1, col2, direction)
@@ -300,13 +338,77 @@ If competitor Price is Larger than 0, use competitor Price otherwise use Cost Pr
         Sum('Product Master'[Cost Price])
     )
 
-
-
-
-
-
-
+ALL Vs ALLSELECTED Vs ALLEXCEPT 
 -----------------------------------------------------------------------
+--ALL
+Data Model
+-------------
+Product Master      Sales               DimDate
+____                ________            _______
+Category Name       Cost Amount         Date
+                                        Day Name
+
+// All is to remove all filter, Copy a table
+                    (Table name)
+Product Ref = All('Product Master')
+
+(Calculate Percentage of the total Sales)
+
+All Sales = Calculate([Total Sales], All(Sales))  -> This will calculate all (Category) sales Number
+
+// Percentage of sales
+                                    (Total Category sales column)
+New Measure ->  % Category Sales = Divide([Total Sales], [All Sales])
+
+--ALLEXCEPT
+// Use All Filter Except (Product Category) Sales Except Product Category  
+Sales Cat AllExcept = Calculate([Total Sales], Allexcept(Sales, Sales[Product Category]))
+
+--AllSelected
+https://www.youtube.com/watch?v=gD8yLTtyW1k
+Slicer -> by Selection
+
+
+Parent and Child Function
+PATH / PATHITEM / PATHITEMREVERSE / PATHLENGTH / PATHCONTAINS
+-----------------------------------------------------------------------
+Path -> Parent Child Function is base on Data Hier
+
+Hierachy is Manager and suboridnate
+
+Parent(Brian) -> Child (Julio)
+
+Brian is Julio's Manager
+
+
+|Employee ID| Employee Name | Manager ID | Manager Name | Gender | Job Title | Location | Path Func
+| 112       | Brian         |            |              | M      | Manager   | Canada   | 112
+| 14        | Julio         | 112        | Brain        | M      |Manager    | Canada   | 112 | 14
+
+
+                    (ID Column)             (Parent Column)
+New Column = PATH(employee[Employee ID], employee[Manager ID])
+-----------------------------------------------------------------------
+
+Bus question -> Employee who are the manager
+
+
+PATHCONTAINS -> Where Path Func Contains Employee ID
+
+//if Path contains 3
+NEW COLUMN -> PATHCONTAINS COL = PATHCONTAINS(Employee[Path Func] "3")
+
+// What is the 4th Position of the employee id   ->  manager > manager > manager > employee
+// From left to right
+new column = PATHITEM(Employee[Path Func], 4)
+
+//What is the position 3rd from right to left 
+// From right to left
+PATHITEMReverse(Employee[Path Func], 3) 
+
+// How many of the hierachy
+Pathlength(Employee[Path func])
+
 ###### SelectedValue
 
     Data table 
