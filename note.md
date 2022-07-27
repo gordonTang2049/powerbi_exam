@@ -190,13 +190,14 @@ Sensitivity Labels (all exported reports need to be encrypted, data can remain p
 
     Column profile -> (in-depth look, column statistics)
         provides a deeper look into the statistics within the column. 
-        This column can be used to provide many different values like the count of rows 
+        This column can be used to provide many different values like the count of rows
         but it does not help in identifying the percentage of empty cells in the column.
 
     Column Quality -> ( percentage of empty cells in each column)
         Column quality is the data preview option that is used to show the percentages of data that is in error, empty and valid.        
 
-    Column distribution -> ( frequency and distribution of the values)
+    Column distribution -> (frequency and distribution of the values)
+        -Check unique and distinct values for each
         displays the data distribution within the column and the counts of unique and distinct values. It is not the right choice for the target goal.
 
 ###### the dataset settings
@@ -518,6 +519,30 @@ relatedTable()
     Count times on each other table
 
     Col = COUNTROWS(RelatedTable(Sales)) 
+#### UserRelationship
+-----------------------------------------------------------------------
+-handling inactive relationship
+
+Fact Table has more than 1 date
+
+By Default, The table will use active date
+
+if we have 
+    -Required Date
+    -Order Date
+
+We use UserRelationship for inactive date
+
+// Default using Order Date
+// Require Date is inactive relationship
+    Measure 
+        Total Sales by Req Date = Calculat(
+            [TOTAL SALES],
+            userRelationship(Order[RequiredDate], DimDate[Date])
+        )
+
+
+
 
 ##### SelectedValue vs AllSelected
 -----------------------------------------------------------------------
@@ -951,15 +976,42 @@ Able to
 
         Log Analytics
 
-###### performance analyzer 
-1. Create a blank report page
-2. Restart Power BI
-3. Open performance analyzer and press start recording
-4. Interact with the visuals
-5. Press stop and review results
+###### Performance tricks / performance analyzer 
+
+    Performance tricks 
+        1.management wants no custom Visuals
+        2.Enable consultant visual maintaining the default requirement
+            Solution-> Add custom visuals to organizational store
+
+
+                Custom Power BI visuals created privately for your organization can be uploaded to the organizational store.
+                 Uploading the private files into your organizational store saves overhead and management time. 
+                 The custom visuals are easily accessed by the Power BI users 
+                 within the organization while still respecting the external restriction for custom visuals.
+
+
+   1. Create a blank report page
+   2. Restart Power BI
+   3. Open performance analyzer and press start recording
+   4. Interact with the visuals
+   5. Press stop and review results
+
+
 
 ###### Alert
     Send an email
     MS power Automate 
     
-###### Azure Active Directory
+###### Azure Active Directory / Azure Active Directory security group
+    situation -> RLS has been created
+
+    with Azure Active Directory security group, 
+        add the user to Azure Active Directory for France
+
+    Azure -> identity and access management service.
+
+
+
+###### Merge & Append
+    Append query -> the same structure and headings
+
