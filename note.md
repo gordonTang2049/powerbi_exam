@@ -288,11 +288,20 @@ if ( OR
     (Temperature[Value] > 80,Temperature[Units]="F"), 
     AND (Temperature[Value] > 26,Temperature[Units]="C") ),"Hot","Not Hot")
 
+KPI Value =
+    VAR _thisyear = 
+        if (isBlank([Total Sales]), False, True )
+    VAR _lastyear =
+        if (isBlank(Total Sales SPLY), False, True )
+    Return
+        IF (
+            _thisyear && _lastyear
+        )
 
 ##### Calculate
     -----------------------------------------------------------------------
 Use Calculate , if I want to calculcate with filters
-Calcualt(, Filter)
+Calculate(, Filter)
 
 ##### Summarize
     -----------------------------------------------------------------------
@@ -518,7 +527,8 @@ relatedTable()
 
     Count times on each other table
 
-    Col = COUNTROWS(RelatedTable(Sales)) 
+    Col = COUNTROWS(RelatedTable(Sales))
+
 #### UserRelationship
 -----------------------------------------------------------------------
 -handling inactive relationship
@@ -880,12 +890,16 @@ Able to
     D. Change the credentials used for connecting to the underlying data source
     E. Define the sensitivity label for the dataset
 
-###### Workspace admin Security
+###### Workspace admin Security / Workspace -> Organizational Custom Visual
     only for admin ->  Adding or removing the other users from the workspace    
 
     Private 
     Public
     Organization
+
+- management wants no custom visuals
+     -> custom visuals are easily accessed by the Power BI users within the organization 
+        With --> while still respecting **the external restriction** for custom visuals.
 
 ###### Performance
      improve the performance while getting the data in Power BI?
@@ -902,6 +916,15 @@ Able to
 
     Member
         - assign viewer, contributor, and member roles?
+
+    Situation
+        - grouped into a security group called DA100Workspace
+        - User cannot create new workspaces.
+
+        3 actions to Fix
+           1. Navigate to Power BI admin portal and select Tenant settings
+           2. Click on Workspace settings and then click on create workspaces
+           3. Choose specific security groups to apply to and add DA100Workspace
 
 ###### Analytics Pane
 
@@ -942,12 +965,29 @@ Able to
     3. Show the factors that influence sentiment scores -> Key influencers
 
     Key influencers -> show the factors that drive a metric you're interested in.
+
     scatter chart -> visually identify outliers 
+        -How category sales have **changed** over time with an animation. 
+        -You decide that a chart with an animation to **show changes across months** would help visualize the data.
+            Category over time 
+            Scatter chart & add month to the play axis well 
+
     Treemap chart ->  displays hierarchical data as a set of nested rectangles.
     Funnel chart -> helps you visualize a linear process that has sequential connected stages.
     Card -> visual shows a single number such as a total.
     waterfall chart -> is used to understand how an initial value is affected by a series of positive and negative changes.
-     ribbon charts -> discover which data category has the highest rank /rank change
+    ribbon charts -> discover which data category has the highest rank /rank change
+
+    KPI Chart -> 
+            (Question)  
+            KPI wells: Indicator, Trend Axis and Target Goals?
+                    -> total units this year
+                    -> the historic values at a **monthly level**
+                    -> comparison use **total** units last year
+            (Awnser)
+                Indicator -> Sales Units This Year
+                Trend Axis -> Fiscal Month
+                Target Goals -> Sales Units Last Year
 
 ###### mobile visualize
 
@@ -1009,8 +1049,6 @@ Able to
         add the user to Azure Active Directory for France
 
     Azure -> identity and access management service.
-
-
 
 ###### Merge & Append
     Append query -> the same structure and headings
